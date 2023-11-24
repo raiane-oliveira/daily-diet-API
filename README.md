@@ -1,12 +1,12 @@
 <h1 align="center">
    <div>
-      <img src="./src/assets/logo.svg" alt="[LOGO (SE TIVER) DO PROJETO]" width="200" height=""  />
+      <img src="https://github.com/raiane-oliveira/daily-diet-API/assets/100815627/db964d21-af37-47e7-a1be-ebc8c67f9abb" alt="Daily Diet Logo" width="200" height=""  />
     </div>
 </h1>
 
 <!-- BADGES -->
 <p align="center">
-  <img src="https://badgen.net/nodejs/v" />
+  <img src="https://badgen.net/github/last-commit/raiane-oliveira/daily-diet-API" />
   <img src="https://badgen.net/github/contributors/raiane-oliveira/daily-diet-API" />
 </p>
 
@@ -24,7 +24,8 @@
 
 ## 💻 About
 
-REST API built with Fastify and TypeScript to management a daily diet app.
+REST API built with Fastify and TypeScript to manage a daily diet app.
+
 This challenge was offered in Rocketseat's Ignite course.
 
 ## 🪸 Features
@@ -34,10 +35,10 @@ This challenge was offered in Rocketseat's Ignite course.
 - [x] Users should be able to list all meals for a specific account.
 - [x] Users should be able to view a single meal.
 - [x] Users should be able to retrieve metrics for their account.
-      - Total number of registered meals.
-      - Total number of meals within the diet.
-      - Total number of meals outside the diet.
-      - Best sequence of meals within the diet.
+   - [x] Total number of registered meals.
+   - [x] Total number of meals within the diet.
+   - [x] Total number of meals outside the diet.
+   - [x] Best sequence of meals within the diet.
 - [x] Users should be able to edit a meal, changing any of the above data.
 - [x] Users should be able to identify themselves in requests.
 - [x] Users should be able to log a completed meal, including the following information:<br>
