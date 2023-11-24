@@ -21,10 +21,10 @@ export async function mealsRoutes(app: FastifyInstance) {
   })
 
   app.get('/:id', async (req, reply) => {
-    const getTransactionParamsSchema = z.object({
+    const getMealParamsSchema = z.object({
       id: z.string().uuid(),
     })
-    const { id } = getTransactionParamsSchema.parse(req.params)
+    const { id } = getMealParamsSchema.parse(req.params)
     const sessionId = req.cookies.session_id
 
     const _meal = await knex('meals')
@@ -60,6 +60,22 @@ export async function mealsRoutes(app: FastifyInstance) {
       user_id: sessionId,
     })
 
-    return reply.status(201).send('Meal created with successful')
+    return reply.status(201).send('Meal created with successful.')
+  })
+
+  app.delete('/:id', async (req, reply) => {
+    const getMealParamsSchema = z.object({
+      id: z.string().uuid(),
+    })
+
+    const { id } = getMealParamsSchema.parse(req.params)
+    const sessionId = req.cookies.session_id
+
+    await knex('meals').delete().where({
+      id,
+      user_id: sessionId,
+    })
+
+    return reply.status(204).send('Meal deleted with successful.')
   })
 }
