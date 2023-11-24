@@ -141,4 +141,45 @@ describe('Meals routes', () => {
       }),
     ])
   })
+
+  it('should be able to update a meal', async () => {
+    const createUserResponse = await request(app.server).post('/users').send({
+      username: 'johndoe',
+    })
+
+    const cookies = createUserResponse.get('Set-Cookie')
+
+    await request(app.server).post('/meals').set('Cookie', cookies).send({
+      name: 'New meal',
+      description: 'Description',
+      timestamp: new Date(),
+      is_in_diet: true,
+    })
+
+    const { body } = await request(app.server)
+      .get('/meals')
+      .set('Cookie', cookies)
+
+    await request(app.server)
+      .put(`/meals/${body.meals[0].id}`)
+      .set('Cookie', cookies)
+      .send({
+        name: 'Update meal',
+        description: 'Update description',
+        is_in_diet: false,
+      })
+      .expect(204)
+
+    const listUpdatedMealsResponse = await request(app.server)
+      .get('/meals')
+      .set('Cookie', cookies)
+
+    expect(listUpdatedMealsResponse.body.meals).toEqual([
+      expect.objectContaining({
+        name: 'Update meal',
+        description: 'Update description',
+        is_in_diet: false,
+      }),
+    ])
+  })
 })
