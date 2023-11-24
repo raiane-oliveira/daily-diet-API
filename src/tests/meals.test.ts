@@ -182,4 +182,63 @@ describe('Meals routes', () => {
       }),
     ])
   })
+
+  it('should be able to get a meals summary', async () => {
+    const createUserResponse = await request(app.server).post('/users').send({
+      username: 'johndoe',
+    })
+
+    const cookies = createUserResponse.get('Set-Cookie')
+
+    await request(app.server).post('/meals').set('Cookie', cookies).send({
+      name: 'New meal',
+      description: 'New meal description',
+      is_in_diet: true,
+      timestamp: new Date(),
+    })
+
+    await request(app.server).post('/meals').set('Cookie', cookies).send({
+      name: 'Meal 2',
+      description: 'Meal description 2',
+      is_in_diet: true,
+      timestamp: new Date(),
+    })
+
+    const mealsSummaryResponse = await request(app.server)
+      .get('/meals/summary')
+      .set('Cookie', cookies)
+      .expect(200)
+
+    expect(mealsSummaryResponse.body.summary).toEqual(
+      expect.objectContaining({
+        total_meals: 2,
+        total_meals_in_diet: 2,
+        total_meals_out_diet: 0,
+        best_streak_meals_in_diet: 2,
+      }),
+    )
+
+    await request(app.server).post('/meals').set('Cookie', cookies).send({
+      name: 'Meal 3',
+      description: 'Meal description 3',
+      is_in_diet: false,
+      timestamp: new Date(),
+    })
+
+    const {
+      body: { summary },
+    } = await request(app.server)
+      .get('/meals/summary')
+      .set('Cookie', cookies)
+      .expect(200)
+
+    expect(summary).toEqual(
+      expect.objectContaining({
+        total_meals: 3,
+        total_meals_in_diet: 2,
+        total_meals_out_diet: 1,
+        best_streak_meals_in_diet: 0,
+      }),
+    )
+  })
 })
