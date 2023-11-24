@@ -1,7 +1,5 @@
-import fastify from 'fastify'
 import { env } from './env'
-
-export const app = fastify()
+import { app } from './app'
 
 app
   .listen({
