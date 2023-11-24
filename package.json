@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "@fastify/cookie": "^9.2.0",
     "dotenv": "^16.3.1",
     "fastify": "^4.24.3",
     "knex": "^3.0.1",

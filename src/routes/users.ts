@@ -3,7 +3,7 @@ import { knex } from '../database'
 import { randomUUID } from 'crypto'
 import { z } from 'zod'
 
-export async function users(app: FastifyInstance) {
+export async function usersRoutes(app: FastifyInstance) {
   app.post('/', async (req, reply) => {
     const createUserSchema = z.object({
       username: z.string(),
@@ -18,9 +18,16 @@ export async function users(app: FastifyInstance) {
 
     const { data } = userSchemaParse
 
-    await knex('users').insert({
-      id: randomUUID(),
-      username: data.username,
+    const createdUser = await knex('users')
+      .insert({
+        id: randomUUID(),
+        username: data.username,
+      })
+      .returning('id')
+
+    reply.setCookie('session_id', createdUser[0].id, {
+      path: '/',
+      maxAge: 60 * 60 * 7, // days
     })
 
     return reply.code(201).send('User created with successful.')
