@@ -7,3 +7,6 @@ db/*.db
 # Environment
 .env
 .env.test
+
+# Build
+build
